@@ -1,220 +1,200 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2113.65">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-    span.s1 {font: 12.0px 'PingFang TC'}
-    span.s2 {font: 12.0px 'Apple Color Emoji'}
-    span.s3 {font: 12.0px 'Zapf Dingbats'}
-    span.s4 {font: 12.0px 'Apple SD Gothic Neo'}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>釜山之旅 2025</title>
+    <style>
+        :root {
+            --d1-color: #ffcc00; --d2-color: #ff99aa; --d3-color: #5ac8fa;
+            --d4-color: #af52de; --d5-color: #ff6b6b; --d6-color: #4cd964;
+            --ajumma-color: #9c27b0; --anan-color: #2196f3;
+            --bg-color: #fdfdfd;
+        }
+        body { font-family: -apple-system, "Noto Sans TC", sans-serif; background: var(--bg-color); margin: 0; padding-top: 70px; color: #444; }
+        .container { max-width: 450px; margin: 0 auto; padding: 20px; }
+
+        /* 頂部分頁選單 */
+        .tabs { position: fixed; top: 0; left: 0; right: 0; background: #fff; display: flex; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .tab-btn { flex: 1; min-width: 75px; border: none; background: none; padding: 15px 5px; font-size: 0.9rem; font-weight: bold; color: #ccc; cursor: pointer; }
+        .tab-btn.active { color: #333; border-bottom: 3px solid #eee; }
+        .tab-btn[data-day="1"].active { border-bottom-color: var(--d1-color); }
+        .tab-btn[data-day="2"].active { border-bottom-color: var(--d2-color); }
+        .tab-btn[data-day="3"].active { border-bottom-color: var(--d3-color); }
+        .tab-btn[data-day="4"].active { border-bottom-color: var(--d4-color); }
+        .tab-btn[data-day="5"].active { border-bottom-color: var(--d5-color); }
+        .tab-btn[data-day="6"].active { border-bottom-color: var(--d6-color); }
+
+        .day-content { display: none; }
+        .day-content.active { display: block; }
+
+        /* 卡牌樣式 */
+        .header { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 25px; }
+        .date-badge { color: #fff; padding: 4px 12px; border-radius: 5px; font-weight: bold; }
+        .event-card { position: relative; padding-left: 25px; border-left: 2px solid #eee; margin-bottom: 20px; }
+        .event-card::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; border-radius: 50%; background: #ddd; border: 2px solid #fff; }
+        
+        .day1 .event-card::before { background: var(--d1-color); }
+        .day2 .event-card::before { background: var(--d2-color); }
+        .day3 .event-card::before { background: var(--d3-color); }
+        .day4 .event-card::before { background: var(--d4-color); }
+        .day5 .event-card::before { background: var(--d5-color); }
+        .day6 .event-card::before { background: var(--d6-color); }
+
+        .day1 .date-badge { background: var(--d1-color); }
+        .day2 .date-badge { background: var(--d2-color); }
+        .day3 .date-badge { background: var(--d3-color); }
+        .day4 .date-badge { background: var(--d4-color); }
+        .day5 .date-badge { background: var(--d5-color); }
+        .day6 .date-badge { background: var(--d6-color); }
+
+        .content { background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .title { font-weight: bold; font-size: 1.1rem; margin-bottom: 8px; }
+        .desc { font-size: 0.9rem; color: #666; line-height: 1.4; }
+        .heart-tip { color: #e91e63; font-size: 0.85rem; margin-top: 10px; background: #fff0f3; padding: 8px; border-radius: 5px; }
+        .btn-map { display: inline-flex; align-items: center; background: #4285F4; color: #fff; text-decoration: none; padding: 8px 12px; border-radius: 8px; margin-top: 8px; font-size: 0.85rem; }
+        .btn-map::before { content: '📍'; margin-right: 5px; }
+
+        /* D5 專用樣式 */
+        .plan-switcher { display: flex; background: #eee; border-radius: 10px; padding: 4px; margin-bottom: 20px; }
+        .plan-btn { flex: 1; border: none; background: none; padding: 10px; font-weight: bold; border-radius: 8px; font-size: 0.85rem; color: #888; cursor: pointer; }
+        .plan-btn.active[data-plan="A"] { background: var(--ajumma-color); color: #fff; }
+        .plan-btn.active[data-plan="B"] { background: var(--anan-color); color: #fff; }
+        
+        .wish-category { margin-top: 15px; margin-bottom: 10px; }
+        .category-label { font-size: 0.8rem; font-weight: bold; color: #777; margin-bottom: 5px; display: block; }
+        .wish-list { background: #f0f7ff; border-radius: 10px; padding: 10px; border: 1px dashed var(--anan-color); }
+        .wish-item { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; font-size: 0.85rem; }
+        .map-link-s { color: var(--anan-color); text-decoration: none; font-size: 0.75rem; border: 1px solid; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+    </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="zh-TW"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;<span class="s1">釜山之旅</span> 2025&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>:root {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--d1-color: #ffcc00; --d2-color: #ff99aa; --d3-color: #5ac8fa;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--d4-color: #af52de; --d5-color: #ff6b6b; --d6-color: #4cd964;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--ajumma-color: #9c27b0; --anan-color: #2196f3;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--bg-color: #fdfdfd;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body { font-family: -apple-system, "Noto Sans TC", sans-serif; background: var(--bg-color); margin: 0; padding-top: 70px; color: #444; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.container { max-width: 450px; margin: 0 auto; padding: 20px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* <span class="s1">頂部分頁選單</span> */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.tabs { position: fixed; top: 0; left: 0; right: 0; background: #fff; display: flex; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000; overflow-x: auto; -webkit-overflow-scrolling: touch; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.tab-btn { flex: 1; min-width: 75px; border: none; background: none; padding: 15px 5px; font-size: 0.9rem; font-weight: bold; color: #ccc; cursor: pointer; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.tab-btn.active { color: #333; border-bottom: 3px solid #eee; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.tab-btn[data-day="1"].active { border-bottom-color: var(--d1-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.tab-btn[data-day="2"].active { border-bottom-color: var(--d2-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.tab-btn[data-day="3"].active { border-bottom-color: var(--d3-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.tab-btn[data-day="4"].active { border-bottom-color: var(--d4-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.tab-btn[data-day="5"].active { border-bottom-color: var(--d5-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.tab-btn[data-day="6"].active { border-bottom-color: var(--d6-color); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day-content { display: none; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day-content.active { display: block; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* <span class="s1">卡牌樣式</span> */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.header { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 25px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.date-badge { color: #fff; padding: 4px 12px; border-radius: 5px; font-weight: bold; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.event-card { position: relative; padding-left: 25px; border-left: 2px solid #eee; margin-bottom: 20px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.event-card::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; border-radius: 50%; background: #ddd; border: 2px solid #fff; }</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day1 .event-card::before { background: var(--d1-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day2 .event-card::before { background: var(--d2-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day3 .event-card::before { background: var(--d3-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day4 .event-card::before { background: var(--d4-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day5 .event-card::before { background: var(--d5-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day6 .event-card::before { background: var(--d6-color); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day1 .date-badge { background: var(--d1-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day2 .date-badge { background: var(--d2-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day3 .date-badge { background: var(--d3-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day4 .date-badge { background: var(--d4-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day5 .date-badge { background: var(--d5-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.day6 .date-badge { background: var(--d6-color); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.content { background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.title { font-weight: bold; font-size: 1.1rem; margin-bottom: 8px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.desc { font-size: 0.9rem; color: #666; line-height: 1.4; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.heart-tip { color: #e91e63; font-size: 0.85rem; margin-top: 10px; background: #fff0f3; padding: 8px; border-radius: 5px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.btn-map { display: inline-flex; align-items: center; background: #4285F4; color: #fff; text-decoration: none; padding: 8px 12px; border-radius: 8px; margin-top: 8px; font-size: 0.85rem; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.btn-map::before { content: '<span class="s2">📍</span>'; margin-right: 5px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* D5 <span class="s1">專用樣式</span> */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.plan-switcher { display: flex; background: #eee; border-radius: 10px; padding: 4px; margin-bottom: 20px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.plan-btn { flex: 1; border: none; background: none; padding: 10px; font-weight: bold; border-radius: 8px; font-size: 0.85rem; color: #888; cursor: pointer; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.plan-btn.active[data-plan="A"] { background: var(--ajumma-color); color: #fff; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.plan-btn.active[data-plan="B"] { background: var(--anan-color); color: #fff; }</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.wish-category { margin-top: 15px; margin-bottom: 10px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.category-label { font-size: 0.8rem; font-weight: bold; color: #777; margin-bottom: 5px; display: block; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.wish-list { background: #f0f7ff; border-radius: 10px; padding: 10px; border: 1px dashed var(--anan-color); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.wish-item { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; font-size: 0.85rem; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.map-link-s { color: var(--anan-color); text-decoration: none; font-size: 0.75rem; border: 1px solid; padding: 2px 6px; border-radius: 4px; font-weight: bold; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="tabs"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="tab-btn" data-day="1"&gt;Day 1&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="tab-btn" data-day="2"&gt;Day 2&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="tab-btn active" data-day="3"&gt;Day 3&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="tab-btn" data-day="4"&gt;Day 4&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="tab-btn" data-day="5"&gt;Day 5&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="tab-btn" data-day="6"&gt;Day 6&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="day1" class="day-content day1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="header"&gt;&lt;span class="date-badge"&gt;03/24 (<span class="s1">二</span>)&lt;/span&gt;&lt;div style="font-size: 1.5rem; font-weight: bold; margin-top: 8px;"&gt;<span class="s1">釜山啟程</span>&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">✈️</span> <span class="s1">機場集合</span> (13:50)&lt;/div&gt;&lt;div class="desc"&gt;<span class="s1">班機</span> IT606 (16:50 <span class="s3">➔</span> 20:00)&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🏨</span> <span class="s1">飯店休息</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/3Lgcvz1rzJP63pnc7?g_st=ic" target="_blank" class="btn-map"&gt;<span class="s1">飯店導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="day2" class="day-content day2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="header"&gt;&lt;span class="date-badge"&gt;03/25 (<span class="s1">三</span>)&lt;/span&gt;&lt;div style="font-size: 1.5rem; font-weight: bold; margin-top: 8px;"&gt;<span class="s1">賞櫻與機張海鮮</span>&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🌸</span> <span class="s1">賞櫻｜河堤櫻花街</span>&lt;/div&gt;&lt;div class="desc"&gt;<span class="s1">飯店附近拍拍照，等司機來</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/wV3cmE2zyapT7oLt6?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">💰</span> <span class="s1">換錢｜西面老奶奶</span> (<span class="s1">那英</span>)&lt;/div&gt;&lt;div class="heart-tip"&gt;<span class="s2">❤️</span> <span class="s1">直接帶台幣換划算，海鮮市場會用現金</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/JAiBsWGUejp4tkKK8?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">⛩️</span> <span class="s1">海東龍宮寺</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/ApdFXtqAopH4HiGPA?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🦀</span> <span class="s1">午餐｜機張市場松葉蟹</span>&lt;/div&gt;&lt;div class="desc"&gt;<span class="s1">推薦「機張本家」，歡迎台灣客人的店</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/77bRd1nM9nT1KPZ17?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">市場導航</span>&lt;/a&gt;&lt;br&gt;&lt;a href="https://maps.app.goo.gl/5aNCnMCiy7qhhUhr8?g_st=i" target="_blank" class="btn-map" style="background:#e67e22"&gt;<span class="s1">推薦店家導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🛍️</span> Outlet<span class="s1">｜</span>Lotte Premium Outlets&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/etzYiAA2cBiAj7sN9?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">☕️</span> <span class="s1">下午茶｜網美咖啡廳</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/52QvLyTMqQembDZT6?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🌊</span> <span class="s1">海邊走走</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/Fj4wTJTdM3udTjY88?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🥣</span> <span class="s1">晚餐｜豬肉湯飯</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/SPqxWkuEjAcXYVzc9?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="day3" class="day-content day3 active"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="header"&gt;&lt;span class="date-badge"&gt;03/26 (<span class="s1">四</span>)&lt;/span&gt;&lt;div style="font-size: 1.5rem; font-weight: bold; margin-top: 8px;"&gt;<span class="s1">膠囊列車與桑拿</span>&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🌅</span> <span class="s1">海雲台膠囊列車</span>&lt;/div&gt;&lt;div class="desc"&gt;<span class="s1">「尾浦上，青沙浦下」</span>&lt;/div&gt;&lt;div class="heart-tip"&gt;<span class="s2">⚠️</span> <span class="s1">每週二開放後</span> 4 <span class="s1">週門票，預計</span> 2/24 <span class="s1">開搶</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/RrWBMnfdxA37S7fR6?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🥣</span> <span class="s1">午餐｜海帶湯</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/NPLXqSg5qRdm3J2D9?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🌸</span> <span class="s1">賞櫻｜鎮海櫻花</span>&lt;/div&gt;&lt;div class="desc"&gt;<span class="s1">慶和火車站、余佐川櫻花道</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/6tFDkUqNZHGXi4dF6" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🧖‍♀️</span> <span class="s1">五星級汗蒸幕｜</span>SPA LAND&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/71YVYr5BiuriFsPL6?g_st=i" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🥣</span> <span class="s1">晚餐｜拌飯&amp;醬蟹</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/apURLVC6YzPz8ru59" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="day4" class="day-content day4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="header"&gt;&lt;span class="date-badge"&gt;03/27 (<span class="s1">五</span>)&lt;/span&gt;&lt;div style="font-size: 1.5rem; font-weight: bold; margin-top: 8px;"&gt;<span class="s1">文化村與影島櫻花</span>&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🌇</span> <span class="s1">甘川洞文化村</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/daw26sb36o3Ua9VRA?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🍲</span> <span class="s1">午餐｜人蔘雞湯</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/FawMnvPPPRnVQx6r8" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🍢</span> <span class="s1">飯後續攤｜</span>BIFF <span class="s1">廣場</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/JFygyhfTHxWNuH4C7" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🚠</span> <span class="s1">松島纜車</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/gdG9RncVWKYAHLEu7?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🌊</span> <span class="s1">白淺灘文化村</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/XHA3nLdsTfCUfGPB7" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">☕️</span> <span class="s1">網美咖啡廳</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/rfacdfyJiUD1x6KY9?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🌸</span> <span class="s1">賞櫻點拍照</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/BeoozTv96A9K54Tc8?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🏨</span> <span class="s1">飯店</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/72a92dK6k2HhvdRc8?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🥩</span> <span class="s1">晚餐｜五花烤肉</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/2tcke1VCTb5U54gf9?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🍸</span> <span class="s1">酒吧</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/rWKKZQeNAG2Hy1yTA?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="day5" class="day-content day5"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="header"&gt;&lt;span class="date-badge"&gt;03/28 (<span class="s1">六</span>)&lt;/span&gt;&lt;div style="font-size: 1.5rem; font-weight: bold; margin-top: 8px;"&gt;<span class="s1">西面分隊行動</span>&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="plan-switcher"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="plan-btn" data-plan="A"&gt;<span class="s1">阿珠媽醫美</span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="plan-btn active" data-plan="B"&gt;<span class="s1">安安逛街</span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="content-A" class="plan-section" style="display:none;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">✨</span> <span class="s1">醫美診所</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/9igiWynn77oYKzPw6?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">診所導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="content-B" class="plan-section"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🥢</span> <span class="s1">午餐｜炸醬麵＆糖醋肉</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/X9TqneBAmmCySAWa7?g_st=il" target="_blank" class="btn-map"&gt;<span class="s1">餐廳導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🛍️</span> <span class="s1">逛街清單</span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="wish-category"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="category-label"&gt;<span class="s2">👖</span> <span class="s1">服飾店</span>&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="wish-list"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="wish-item"&gt;&lt;span&gt;kida&lt;/span&gt;&lt;a href="https://maps.app.goo.gl/4gPRdvKSz8eTyDXR7?g_st=il" target="_blank" class="map-link-s"&gt;<span class="s1">地圖</span>&lt;/a&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="wish-item"&gt;&lt;span&gt;NOCLAIM&lt;/span&gt;&lt;a href="https://maps.app.goo.gl/imXdKEcCbek69iYL7" target="_blank" class="map-link-s"&gt;<span class="s1">地圖</span>&lt;/a&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="wish-item"&gt;&lt;span&gt;93 vintage&lt;/span&gt;&lt;a href="https://maps.app.goo.gl/xxUqaNMPThyLTkVg6" target="_blank" class="map-link-s"&gt;<span class="s1">地圖</span>&lt;/a&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="wish-item"&gt;&lt;span&gt;<span class="s4">프렐루드</span> (Prelude)&lt;/span&gt;&lt;a href="https://maps.app.goo.gl/BBcfr4kcKwqTPPhC7" target="_blank" class="map-link-s"&gt;<span class="s1">地圖</span>&lt;/a&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="wish-category"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="category-label"&gt;<span class="s2">🎁</span> <span class="s1">雜貨店</span>&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="wish-list"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="wish-item"&gt;&lt;span&gt;<span class="s4">마벨미뇽</span> (Mabel Mignon)&lt;/span&gt;&lt;a href="https://maps.app.goo.gl/fqdg7bbfdwZFVExVA" target="_blank" class="map-link-s"&gt;<span class="s1">地圖</span>&lt;/a&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="wish-item"&gt;&lt;span&gt;cluster round (CRR)&lt;/span&gt;&lt;a href="https://maps.app.goo.gl/6aLZvqoTPsNEZWdE7" target="_blank" class="map-link-s"&gt;<span class="s1">地圖</span>&lt;/a&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="wish-category"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="category-label"&gt;<span class="s2">💌</span> <span class="s1">文具</span> / <span class="s1">明信片</span>&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="wish-list"&gt;&lt;div class="wish-item"&gt;&lt;span&gt;Poset Jeonpo&lt;/span&gt;&lt;a href="https://maps.app.goo.gl/fvbXjbmYWnerXFKa6" target="_blank" class="map-link-s"&gt;<span class="s1">地圖</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="wish-category"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="category-label"&gt;<span class="s2">🍹</span> <span class="s1">甜點</span> / <span class="s1">飲料</span>&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="wish-list"&gt;&lt;div class="wish-item"&gt;&lt;span&gt;Fruto Fruta&lt;/span&gt;&lt;a href="https://maps.app.goo.gl/TN16UQPv4HJAdxsQ9" target="_blank" class="map-link-s"&gt;<span class="s1">地圖</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div style="margin-top: 30px; border-top: 2px dashed #ccc; padding-top: 20px;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div style="text-align:center; margin-bottom:15px;"&gt;&lt;span style="background:#444; color:#fff; padding:3px 15px; border-radius:20px; font-size:0.8rem;"&gt;<span class="s1">全</span> <span class="s1">員</span> <span class="s1">集</span> <span class="s1">合</span>&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="event-card"&gt;&lt;div class="content" style="border: 2px solid #5d4037;"&gt;&lt;div class="title" style="color:#5d4037;"&gt;<span class="s2">🥩</span> <span class="s1">共同晚餐｜韓牛</span>&lt;/div&gt;&lt;a href="https://maps.app.goo.gl/hk8srYKG6FZDk6R49?g_st=il" target="_blank" class="btn-map" style="background:#5d4037;"&gt;<span class="s1">餐廳導航</span>&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="day6" class="day-content day6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="header"&gt;&lt;span class="date-badge"&gt;03/29 (<span class="s1">日</span>)&lt;/span&gt;&lt;div style="font-size: 1.5rem; font-weight: bold; margin-top: 8px;"&gt;<span class="s1">平安回國</span>&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">🚕</span> <span class="s1">準備出發</span> (08:30)&lt;/div&gt;&lt;div class="desc"&gt;<span class="s1">辦理退房，準備前往金海機場</span>&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="event-card"&gt;&lt;div class="content"&gt;&lt;div class="title"&gt;<span class="s2">✈️</span> <span class="s1">班機資訊</span> CI189&lt;/div&gt;&lt;div class="desc"&gt;&lt;b&gt;PUS <span class="s3">➔</span> TPE&lt;/b&gt;&lt;br&gt;12:15 <span class="s3">➔</span> 13:40&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div style="text-align:center; margin-top:40px; color:#bbb;"&gt;<span class="s2">✨</span> <span class="s1">祝大家旅途愉快，滿載而歸！</span> <span class="s2">✨</span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.querySelectorAll('.tab-btn').forEach(btn =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>btn.addEventListener('click', () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.tab-btn, .day-content').forEach(el =&gt; el.classList.remove('active'));</p>
-<p class="p1"><span class="Apple-converted-space">            </span>btn.classList.add('active');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('day' + btn.dataset.day).classList.add('active');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>window.scrollTo(0,0);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.querySelectorAll('.plan-btn').forEach(btn =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>btn.addEventListener('click', () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.plan-btn').forEach(b =&gt; b.classList.remove('active'));</p>
-<p class="p1"><span class="Apple-converted-space">            </span>btn.classList.add('active');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const plan = btn.dataset.plan;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('content-A').style.display = (plan === 'A') ? 'block' : 'none';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('content-B').style.display = (plan === 'B') ? 'block' : 'none';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<div class="tabs">
+    <button class="tab-btn" data-day="1">Day 1</button>
+    <button class="tab-btn" data-day="2">Day 2</button>
+    <button class="tab-btn active" data-day="3">Day 3</button>
+    <button class="tab-btn" data-day="4">Day 4</button>
+    <button class="tab-btn" data-day="5">Day 5</button>
+    <button class="tab-btn" data-day="6">Day 6</button>
+</div>
+
+<div class="container">
+    <div id="day1" class="day-content day1">
+        <div class="header"><span class="date-badge">03/24 (二)</span><div style="font-size: 1.5rem; font-weight: bold; margin-top: 8px;">釜山啟程</div></div>
+        <div class="event-card"><div class="content"><div class="title">✈️ 機場集合 (13:50)</div><div class="desc">班機 IT606 (16:50 ➔ 20:00)</div></div></div>
+        <div class="event-card"><div class="content"><div class="title">🏨 飯店休息</div><a href="https://maps.app.goo.gl/3Lgcvz1rzJP63pnc7?g_st=ic" target="_blank" class="btn-map">飯店導航</a></div></div>
+    </div>
+
+    <div id="day2" class="day-content day2">
+        <div class="header"><span class="date-badge">03/25 (三)</span><div style="font-size: 1.5rem; font-weight: bold; margin-top: 8px;">賞櫻與機張海鮮</div></div>
+        <div class="event-card"><div class="content"><div class="title">🌸 賞櫻｜河堤櫻花街</div><div class="desc">飯店附近拍拍照，等司機來</div><a href="https://maps.app.goo.gl/wV3cmE2zyapT7oLt6?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">💰 換錢｜西面老奶奶 (那英)</div><div class="heart-tip">❤️ 直接帶台幣換划算，海鮮市場會用現金</div><a href="https://maps.app.goo.gl/JAiBsWGUejp4tkKK8?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">⛩️ 海東龍宮寺</div><a href="https://maps.app.goo.gl/ApdFXtqAopH4HiGPA?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🦀 午餐｜機張市場松葉蟹</div><div class="desc">推薦「機張本家」，歡迎台灣客人的店</div><a href="https://maps.app.goo.gl/77bRd1nM9nT1KPZ17?g_st=il" target="_blank" class="btn-map">市場導航</a><br><a href="https://maps.app.goo.gl/5aNCnMCiy7qhhUhr8?g_st=i" target="_blank" class="btn-map" style="background:#e67e22">推薦店家導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🛍️ Outlet｜Lotte Premium Outlets</div><a href="https://maps.app.goo.gl/etzYiAA2cBiAj7sN9?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">☕️ 下午茶｜網美咖啡廳</div><a href="https://maps.app.goo.gl/52QvLyTMqQembDZT6?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🌊 海邊走走</div><a href="https://maps.app.goo.gl/Fj4wTJTdM3udTjY88?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🥣 晚餐｜豬肉湯飯</div><a href="https://maps.app.goo.gl/SPqxWkuEjAcXYVzc9?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+    </div>
+
+    <div id="day3" class="day-content day3 active">
+        <div class="header"><span class="date-badge">03/26 (四)</span><div style="font-size: 1.5rem; font-weight: bold; margin-top: 8px;">膠囊列車與桑拿</div></div>
+        <div class="event-card"><div class="content"><div class="title">🌅 海雲台膠囊列車</div><div class="desc">「尾浦上，青沙浦下」</div><div class="heart-tip">⚠️ 每週二開放後 4 週門票，預計 2/24 開搶</div><a href="https://maps.app.goo.gl/RrWBMnfdxA37S7fR6?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🥣 午餐｜海帶湯</div><a href="https://maps.app.goo.gl/NPLXqSg5qRdm3J2D9?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🌸 賞櫻｜鎮海櫻花</div><div class="desc">慶和火車站、余佐川櫻花道</div><a href="https://maps.app.goo.gl/6tFDkUqNZHGXi4dF6" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🧖‍♀️ 五星級汗蒸幕｜SPA LAND</div><a href="https://maps.app.goo.gl/71YVYr5BiuriFsPL6?g_st=i" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🥣 晚餐｜拌飯&醬蟹</div><a href="https://maps.app.goo.gl/apURLVC6YzPz8ru59" target="_blank" class="btn-map">導航</a></div></div>
+    </div>
+
+    <div id="day4" class="day-content day4">
+        <div class="header"><span class="date-badge">03/27 (五)</span><div style="font-size: 1.5rem; font-weight: bold; margin-top: 8px;">文化村與影島櫻花</div></div>
+        <div class="event-card"><div class="content"><div class="title">🌇 甘川洞文化村</div><a href="https://maps.app.goo.gl/daw26sb36o3Ua9VRA?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🍲 午餐｜人蔘雞湯</div><a href="https://maps.app.goo.gl/FawMnvPPPRnVQx6r8" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🍢 飯後續攤｜BIFF 廣場</div><a href="https://maps.app.goo.gl/JFygyhfTHxWNuH4C7" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🚠 松島纜車</div><a href="https://maps.app.goo.gl/gdG9RncVWKYAHLEu7?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🌊 白淺灘文化村</div><a href="https://maps.app.goo.gl/XHA3nLdsTfCUfGPB7" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">☕️ 網美咖啡廳</div><a href="https://maps.app.goo.gl/rfacdfyJiUD1x6KY9?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🌸 賞櫻點拍照</div><a href="https://maps.app.goo.gl/BeoozTv96A9K54Tc8?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🏨 飯店</div><a href="https://maps.app.goo.gl/72a92dK6k2HhvdRc8?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🥩 晚餐｜五花烤肉</div><a href="https://maps.app.goo.gl/2tcke1VCTb5U54gf9?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+        <div class="event-card"><div class="content"><div class="title">🍸 酒吧</div><a href="https://maps.app.goo.gl/rWKKZQeNAG2Hy1yTA?g_st=il" target="_blank" class="btn-map">導航</a></div></div>
+    </div>
+
+    <div id="day5" class="day-content day5">
+        <div class="header"><span class="date-badge">03/28 (六)</span><div style="font-size: 1.5rem; font-weight: bold; margin-top: 8px;">西面分隊行動</div></div>
+        <div class="plan-switcher">
+            <button class="plan-btn" data-plan="A">阿珠媽醫美</button>
+            <button class="plan-btn active" data-plan="B">安安逛街</button>
+        </div>
+        
+        <div id="content-A" class="plan-section" style="display:none;">
+            <div class="event-card"><div class="content"><div class="title">✨ 醫美診所</div><a href="https://maps.app.goo.gl/9igiWynn77oYKzPw6?g_st=il" target="_blank" class="btn-map">診所導航</a></div></div>
+        </div>
+
+        <div id="content-B" class="plan-section">
+            <div class="event-card"><div class="content"><div class="title">🥢 午餐｜炸醬麵＆糖醋肉</div><a href="https://maps.app.goo.gl/X9TqneBAmmCySAWa7?g_st=il" target="_blank" class="btn-map">餐廳導航</a></div></div>
+            
+            <div class="event-card"><div class="content"><div class="title">🛍️ 逛街清單</div>
+                <div class="wish-category">
+                    <span class="category-label">👖 服飾店</span>
+                    <div class="wish-list">
+                        <div class="wish-item"><span>kida</span><a href="https://maps.app.goo.gl/4gPRdvKSz8eTyDXR7?g_st=il" target="_blank" class="map-link-s">地圖</a></div>
+                        <div class="wish-item"><span>NOCLAIM</span><a href="https://maps.app.goo.gl/imXdKEcCbek69iYL7" target="_blank" class="map-link-s">地圖</a></div>
+                        <div class="wish-item"><span>93 vintage</span><a href="https://maps.app.goo.gl/xxUqaNMPThyLTkVg6" target="_blank" class="map-link-s">地圖</a></div>
+                        <div class="wish-item"><span>프렐루드 (Prelude)</span><a href="https://maps.app.goo.gl/BBcfr4kcKwqTPPhC7" target="_blank" class="map-link-s">地圖</a></div>
+                    </div>
+                </div>
+                <div class="wish-category">
+                    <span class="category-label">🎁 雜貨店</span>
+                    <div class="wish-list">
+                        <div class="wish-item"><span>마벨미뇽 (Mabel Mignon)</span><a href="https://maps.app.goo.gl/fqdg7bbfdwZFVExVA" target="_blank" class="map-link-s">地圖</a></div>
+                        <div class="wish-item"><span>cluster round (CRR)</span><a href="https://maps.app.goo.gl/6aLZvqoTPsNEZWdE7" target="_blank" class="map-link-s">地圖</a></div>
+                    </div>
+                </div>
+                <div class="wish-category">
+                    <span class="category-label">💌 文具 / 明信片</span>
+                    <div class="wish-list"><div class="wish-item"><span>Poset Jeonpo</span><a href="https://maps.app.goo.gl/fvbXjbmYWnerXFKa6" target="_blank" class="map-link-s">地圖</a></div></div>
+                </div>
+                <div class="wish-category">
+                    <span class="category-label">🍹 甜點 / 飲料</span>
+                    <div class="wish-list"><div class="wish-item"><span>Fruto Fruta</span><a href="https://maps.app.goo.gl/TN16UQPv4HJAdxsQ9" target="_blank" class="map-link-s">地圖</a></div></div>
+                </div>
+            </div></div>
+        </div>
+
+        <div style="margin-top: 30px; border-top: 2px dashed #ccc; padding-top: 20px;">
+            <div style="text-align:center; margin-bottom:15px;"><span style="background:#444; color:#fff; padding:3px 15px; border-radius:20px; font-size:0.8rem;">全 員 集 合</span></div>
+            <div class="event-card"><div class="content" style="border: 2px solid #5d4037;"><div class="title" style="color:#5d4037;">🥩 共同晚餐｜韓牛</div><a href="https://maps.app.goo.gl/hk8srYKG6FZDk6R49?g_st=il" target="_blank" class="btn-map" style="background:#5d4037;">餐廳導航</a></div></div>
+        </div>
+    </div>
+
+    <div id="day6" class="day-content day6">
+        <div class="header"><span class="date-badge">03/29 (日)</span><div style="font-size: 1.5rem; font-weight: bold; margin-top: 8px;">平安回國</div></div>
+        <div class="event-card"><div class="content"><div class="title">🚕 準備出發 (08:30)</div><div class="desc">辦理退房，準備前往金海機場</div></div></div>
+        <div class="event-card"><div class="content"><div class="title">✈️ 班機資訊 CI189</div><div class="desc"><b>PUS ➔ TPE</b><br>12:15 ➔ 13:40</div></div></div>
+        <div style="text-align:center; margin-top:40px; color:#bbb;">✨ 祝大家旅途愉快，滿載而歸！ ✨</div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn, .day-content').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('day' + btn.dataset.day).classList.add('active');
+            window.scrollTo(0,0);
+        });
+    });
+    document.querySelectorAll('.plan-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.plan-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const plan = btn.dataset.plan;
+            document.getElementById('content-A').style.display = (plan === 'A') ? 'block' : 'none';
+            document.getElementById('content-B').style.display = (plan === 'B') ? 'block' : 'none';
+        });
+    });
+</script>
 </body>
 </html>
